@@ -11,6 +11,7 @@ func Register(r *install.Router, c *config.Config) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	r.GET("/api/wxIdList", s.GetWxIdList)
 	r.GET("/api/wxPostList", s.DoSearch)
 	r.GET("/api/nearlyPost", s.GetNearlyPostList)
 	go s.SetupSpiderPlan()

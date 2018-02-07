@@ -47,3 +47,5 @@ dist/
 
 .idea/
 *TODO*
+main
+data/*

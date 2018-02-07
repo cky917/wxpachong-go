@@ -16,6 +16,11 @@ type WxReader struct {
 	WxId string `json:"wxId"`
 	PostList []map[string]interface{} `json:"postList"`
 }
+func (s *Server) GetWxIdList(w http.ResponseWriter, r *http.Request,  params httprouter.Params) {
+	resp, statusCode := spec.MarshalResponse(s.wxIdList, nil)
+	w.WriteHeader(statusCode)
+	w.Write(resp)
+}
 
 func (s *Server) DoSearch(w http.ResponseWriter, r *http.Request,  params httprouter.Params) {
 	values := r.URL.Query()
@@ -60,9 +65,11 @@ func(s *Server) getNearlyPostList() (posts []interface{}, err error) {
 		resultStr := localData["result"].(string)
 		if err = json.Unmarshal([]byte(resultStr), &result); err != nil {
 			return posts, err
-		}	
-		postList := result["postList"].([]interface{})
-		posts = append(posts, s.getPostUnderTime(postList, 3)...) 
+		}
+		if result != nil && result["postList"] != nil{
+			postList := result["postList"].([]interface{})
+			posts = append(posts, s.getPostUnderTime(postList, 3)...) 
+		}
 	}
 	return
 }
