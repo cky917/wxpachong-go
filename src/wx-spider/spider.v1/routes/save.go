@@ -3,11 +3,12 @@ package routes
 import(
 	"fmt"
 	"sync"
+	"time"
 	"github.com/robfig/cron"
 )
 func(s *Server) SetupSpiderPlan() {
 	c:= cron.New()
-	spec := "26 1,7,11,14,16,20 * * * ?"
+	spec := "1 26 1,7,11,14,16,20 * * *"
 	c.AddFunc(spec, func() {
 		go s.DoSave()
 	})
@@ -16,6 +17,7 @@ func(s *Server) SetupSpiderPlan() {
 }
 
 func(s *Server) DoSave() {
+	fmt.Println("开始执行定时任务：", time.Now())
 	var mutex = &sync.Mutex{}
 	index := 0
 	c:= cron.New()

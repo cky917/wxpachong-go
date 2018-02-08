@@ -39,7 +39,7 @@ func(s *Server) readLocalPostById(wxId string) (posts map[string]interface{}, er
 	file, err := os.Open(postDir)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return posts, err
 	}
 	defer file.Close()
 	bytes, err := ioutil.ReadAll(file)
